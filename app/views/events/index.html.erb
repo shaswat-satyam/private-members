@@ -1,0 +1,34 @@
+<p style="color: green"><%= notice %></p>
+
+<% if user_signed_in? %> 
+ <div> Welcome <%= current_user.email %> </div> 
+ <%= link_to current_user.email, user_path(current_user) %>
+  <%= button_to "Sign out", destroy_user_session_path, method: :delete %> 
+<% else %>
+  <%= button_to "Sign in", new_user_session_path %> 
+<% end %>
+
+<h1>Events</h1>
+
+<div id="events">
+  <% @events.each do |event| %>
+    <%= render event %>
+    <p>
+      <%= link_to "Show this event", event %>
+      <%if event.user_id == current_user.id%>
+        | <%= link_to "Edit this event", edit_event_path(event) %>
+        | <%= button_to "Destroy this event", event, method: :delete %>
+        | 
+      <%end%>
+      <%if @eventId.include? event.id%>
+        <%= link_to "Dont Attend this Event",attendance_path(event), method: :delete%>
+      <%else%>
+        <%= link_to "Attend this Event",new_attendance_path(event)%>
+      <%end%>
+
+    </p>
+  <% end %>
+</div>
+<% if user_signed_in? %>
+  <%= link_to "New event", new_event_path %>
+<%end%>

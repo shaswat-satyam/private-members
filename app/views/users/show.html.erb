@@ -1,0 +1,48 @@
+<h1>Hosting</h1>
+<%if !@user_events.empty?%>
+    <%for event in @user_events%>
+        <%= event.name%>
+        <br>
+        <%= event.description%>
+        <br>
+        <%= event.date%>
+        <br>
+        <%= event.venue%>
+        <br>
+        <%= event.user_id%>
+        <br>
+        <hr>
+    <%end%>
+<%else%>
+    <h1>No events yet</h1>
+<%end%>
+
+
+<h2>Attending</h2>
+<div class="container" style="display: flex;flex-direction:column; position:relative">
+<p style="text-align:left"> Future </p>
+<p style="text-align:right;transform: translateY(-400%);"> Past</p>
+<%for event in @attending%>
+    <%e =  @events.find(event.event_id)%>
+    <%if e.date > Time.now%>
+        <div style="display:inline-block; width:50%">
+    <%else%>
+        <div style="vertical-align:middle;width:50%;margin-left:auto;display:inline-block;transform: translateY(-200%);">
+    <%end%>
+    <%= e.name%>
+    <br>
+    <%= e.description%>
+    <br>
+    <%= e.date%>
+    <br>
+    <%= e.venue%>
+    <br>
+    <%= e.user_id%>
+    <br>
+    <hr>
+    </div>
+<%end%>
+</div>
+
+<%= link_to "Make a new Event", new_event_path%>
+<%= link_to "Home",root_path%>
